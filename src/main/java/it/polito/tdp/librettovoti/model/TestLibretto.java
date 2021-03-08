@@ -1,7 +1,6 @@
 package it.polito.tdp.librettovoti.model;
 
 import java.time.LocalDate;
-import java.util.List;
 
 public class TestLibretto {
 	
