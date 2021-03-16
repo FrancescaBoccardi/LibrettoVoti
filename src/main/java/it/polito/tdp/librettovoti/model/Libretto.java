@@ -5,13 +5,16 @@ import java.util.*;
 public class Libretto {
 	
 	private List<Voto> voti; //generico 
+	private Map<String, Voto> votiMap; //identity map: nome esame --> oggetto Voto
 	
 	public Libretto() {
 		voti = new ArrayList<Voto>(); //quando inizializzo devo scegliere l'oggetto specifico
+		this.votiMap = new HashMap<>();
 	}
 	
 	public void add(Voto v) {
 		voti.add(v);
+		this.votiMap.put(v.getNome(), v);
 	}
 
 	/*
@@ -44,21 +47,85 @@ public class Libretto {
 	
 	/**
 	 * Ricerca un voto del corso di cui è specificato il nome.
-	 * Se il corso non esiste, retituisce null.
+	 * Se il corso non esiste, restituisce null.
 	 * @param nomeCorso
 	 * @return
 	 */
 	
 	
 	public Voto ricercaCorso(String nomeCorso) {
-		Voto risultato = null;
-		for(Voto v : voti) {
-			if(v.getNome().equals(nomeCorso)){
-				risultato = v;
-				break;
-			}
+//		Voto risultato = null;
+//		for(Voto v : voti) {
+//			if(v.getNome().equals(nomeCorso)){
+//				risultato = v;
+//				break;
+//			}
+//		}
+//		return risultato;
+		
+		return this.votiMap.get(nomeCorso);
+	}
+	
+	/**
+	 * Verifica se nel libretto c'è già un voto con lo stesso esame e la stessa votazione
+	 * @param v
+	 * @return
+	 */
+	
+	public boolean esisteDuplicato(Voto v) {
+//		boolean trovato = false;
+//		
+//		for(Voto voto : this.voti) {
+//			if(voto.getNome().equals(v.getNome()) && voto.getVoto() == v.getVoto()) {
+//				trovato = true;
+//				break;
+//			}
+//		}
+//		
+//		return trovato;
+		
+		Voto trovato = this.votiMap.get(v.getNome());
+		if(trovato == null) {
+			return false;
 		}
-		return risultato;
+		
+		if(trovato.getVoto() == v.getVoto()) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+	
+	/**
+	 * Verifica se nel libretto c'è già un voto con lo stesso esame ma votazione diversa
+	 * @param v
+	 * @return
+	 */
+	
+	public boolean esisteConflitto(Voto v) {
+//	boolean trovato = false;
+//		
+//		for(Voto voto : this.voti) {
+//			if(voto.getNome().equals(v.getNome()) && voto.getVoto() != v.getVoto()) {
+//				trovato = true;
+//				break;
+//			}
+//		}
+//		
+//		return trovato;
+		
+		Voto trovato = this.votiMap.get(v.getNome());
+		if(trovato == null) {
+			return false;
+		}
+		
+		if(trovato.getVoto() != v.getVoto()) {
+			return true;
+		}
+		else {
+			return false;
+		}
 	}
 
 	public String toString() {
